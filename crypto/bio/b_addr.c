@@ -1,7 +1,7 @@
 /*
  * Copyright 2016-2018 The OpenSSL Project Authors. All Rights Reserved.
  *
- * Licensed under the Apache License 2.0 (the "License").  You may not use
+ * Licensed under the OpenSSL license (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
  * in the file LICENSE in the source distribution or at
  * https://www.openssl.org/source/license.html
@@ -20,6 +20,22 @@
 
 CRYPTO_RWLOCK *bio_lookup_lock;
 static CRYPTO_ONCE bio_lookup_init = CRYPTO_ONCE_STATIC_INIT;
+
+typedef struct hostent {
+    char  *h_name;
+    char  **h_aliases;
+    short h_addrtype;
+    short h_length;
+    char  **h_addr_list;
+} HOSTENT, *PHOSTENT, *LPHOSTENT;
+
+typedef struct servent {
+    char  *s_name;
+    char  **s_aliases;
+    char  *s_proto;
+    short s_port;
+} SERVENT, *PSERVENT, *LPSERVENT;
+
 
 /*
  * Throughout this file and bio_lcl.h, the existence of the macro

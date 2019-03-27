@@ -1,7 +1,7 @@
 /*
  * Copyright 1995-2018 The OpenSSL Project Authors. All Rights Reserved.
  *
- * Licensed under the Apache License 2.0 (the "License").  You may not use
+ * Licensed under the OpenSSL license (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
  * in the file LICENSE in the source distribution or at
  * https://www.openssl.org/source/license.html
@@ -27,10 +27,13 @@
  * set this to a comma-separated list of 'random' device files to try out. By
  * default, we will try to read at least one of these files
  */
-#  define DEVRANDOM "/dev/urandom", "/dev/random", "/dev/hwrng", "/dev/srandom"
-#  ifdef __linux
-#   define DEVRANDOM_WAIT "/dev/random"
+#  if defined(__s390__)
+#   define DEVRANDOM "/dev/prandom","/dev/urandom","/dev/hwrng","/dev/random"
+#  else
+#   define DEVRANDOM "/dev/urandom","/dev/random","/dev/srandom"
 #  endif
+# ifdef __linux
+#   define DEVRANDOM_WAIT "/dev/random"
 # endif
 # if !defined(OPENSSL_NO_EGD) && !defined(DEVRANDOM_EGD)
 /*

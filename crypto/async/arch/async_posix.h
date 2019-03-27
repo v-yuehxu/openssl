@@ -1,7 +1,7 @@
 /*
  * Copyright 2015-2018 The OpenSSL Project Authors. All Rights Reserved.
  *
- * Licensed under the Apache License 2.0 (the "License").  You may not use
+ * Licensed under the OpenSSL license (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
  * in the file LICENSE in the source distribution or at
  * https://www.openssl.org/source/license.html
@@ -13,7 +13,7 @@
 
 #if defined(OPENSSL_SYS_UNIX) \
     && defined(OPENSSL_THREADS) && !defined(OPENSSL_NO_ASYNC) \
-    && !defined(__ANDROID__) && !defined(__OpenBSD__)
+    && !defined(__ANDROID__) && !defined(__OpenBSD__) && !defined (OPENSSL_PS4) //JohnXu
 
 # include <unistd.h>
 

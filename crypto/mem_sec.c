@@ -2,7 +2,7 @@
  * Copyright 2015-2018 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright 2004-2014, Akamai Technologies. All Rights Reserved.
  *
- * Licensed under the Apache License 2.0 (the "License").  You may not use
+ * Licensed under the OpenSSL license (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
  * in the file LICENSE in the source distribution or at
  * https://www.openssl.org/source/license.html
@@ -422,8 +422,12 @@ static int sh_init(size_t size, int minsize)
     if (sh.bitmalloc == NULL)
         goto err;
 
+//JohnXu added
+#ifndef OPENSSL_PS4    
+#define OPENSSL_PS4
+#endif
     /* Allocate space for heap, and two extra pages as guards */
-#if defined(_SC_PAGE_SIZE) || defined (_SC_PAGESIZE)
+#if (defined(_SC_PAGE_SIZE) || defined (_SC_PAGESIZE))  && !defined (OPENSSL_PS4) //JohnXu
     {
 # if defined(_SC_PAGE_SIZE)
         long tmppgsize = sysconf(_SC_PAGE_SIZE);

@@ -1,7 +1,7 @@
 /*
  * Copyright 2001-2018 The OpenSSL Project Authors. All Rights Reserved.
  *
- * Licensed under the Apache License 2.0 (the "License").  You may not use
+ * Licensed under the OpenSSL license (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
  * in the file LICENSE in the source distribution or at
  * https://www.openssl.org/source/license.html
@@ -28,7 +28,7 @@
 #   define _POSIX_C_SOURCE 2
 #  endif
 # endif
-# include <signal.h>
+# include <sys/signal.h>
 # include <stdio.h>
 # include <string.h>
 # include <errno.h>
@@ -43,7 +43,7 @@
  * If unistd.h defines _POSIX_VERSION, we conclude that we are on a POSIX
  * system and have sigaction and termios.
  */
-#  if defined(_POSIX_VERSION) && _POSIX_VERSION>=199309L
+#  if defined(_POSIX_VERSION) && _POSIX_VERSION>=199309L  && !defined (OPENSSL_PS4)
 
 #   define SIGACTION
 #   if !defined(TERMIOS) && !defined(TERMIO) && !defined(SGTTY)
@@ -93,7 +93,7 @@
  */
 #  elif !defined(OPENSSL_SYS_VMS) \
 	&& !defined(OPENSSL_SYS_MSDOS) \
-	&& !defined(OPENSSL_SYS_VXWORKS)
+	&& !defined(OPENSSL_SYS_VXWORKS) && !defined (OPENSSL_PS4)
 #   define TERMIOS
 #   undef  TERMIO
 #   undef  SGTTY
@@ -131,7 +131,7 @@
 #  define TTY_set(tty,data)      ioctl(tty,TIOCSETP,data)
 # endif
 
-# if !defined(_LIBC) && !defined(OPENSSL_SYS_MSDOS) && !defined(OPENSSL_SYS_VMS)
+# if !defined(_LIBC) && !defined(OPENSSL_SYS_MSDOS) && !defined(OPENSSL_SYS_VMS) && !defined (OPENSSL_PS4)
 #  include <sys/ioctl.h>
 # endif
 
@@ -173,7 +173,7 @@ static unsigned short channel = 0;
 # elif defined(_WIN32) && !defined(_WIN32_WCE)
 static DWORD tty_orig, tty_new;
 # else
-#  if !defined(OPENSSL_SYS_MSDOS) || defined(__DJGPP__)
+#  if (!defined(OPENSSL_SYS_MSDOS) || defined(__DJGPP__)) && !defined (OPENSSL_PS4) 
 static TTY_STRUCT tty_orig, tty_new;
 #  endif
 # endif
@@ -488,7 +488,7 @@ static int noecho_console(UI *ui)
     tty_new.TTY_FLAGS &= ~ECHO;
 # endif
 
-# if defined(TTY_set) && !defined(OPENSSL_SYS_VMS)
+# if defined(TTY_set) && !defined(OPENSSL_SYS_VMS) && !defined (OPENSSL_PS4)
     if (is_a_tty && (TTY_set(fileno(tty_in), &tty_new) == -1))
         return 0;
 # endif
@@ -525,7 +525,7 @@ static int noecho_console(UI *ui)
 
 static int echo_console(UI *ui)
 {
-# if defined(TTY_set) && !defined(OPENSSL_SYS_VMS)
+# if defined(TTY_set) && !defined(OPENSSL_SYS_VMS) && !defined (OPENSSL_PS4)
     memcpy(&(tty_new), &(tty_orig), sizeof(tty_orig));
     if (is_a_tty && (TTY_set(fileno(tty_in), &tty_new) == -1))
         return 0;

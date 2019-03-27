@@ -1,7 +1,7 @@
 /*
  * Copyright 2001-2018 The OpenSSL Project Authors. All Rights Reserved.
  *
- * Licensed under the Apache License 2.0 (the "License").  You may not use
+ * Licensed under the OpenSSL license (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
  * in the file LICENSE in the source distribution or at
  * https://www.openssl.org/source/license.html
@@ -10,7 +10,7 @@
 #include <openssl/e_os2.h>
 #include <string.h>
 #include <openssl/crypto.h>
-
+#include <time.h>  //JohnXu
 struct tm *OPENSSL_gmtime(const time_t *timer, struct tm *result)
 {
     struct tm *ts = NULL;
@@ -37,7 +37,7 @@ struct tm *OPENSSL_gmtime(const time_t *timer, struct tm *result)
         memcpy(result, ts2, sizeof(struct tm));
         ts = result;
     }
-#elif defined(OPENSSL_THREADS) && !defined(OPENSSL_SYS_WIN32) && !defined(OPENSSL_SYS_MACOSX)
+#elif defined(OPENSSL_THREADS) && !defined(OPENSSL_SYS_WIN32) && !defined(OPENSSL_SYS_MACOSX) && !defined(OPENSSL_PS4)
     if (gmtime_r(timer, result) == NULL)
         return NULL;
     ts = result;

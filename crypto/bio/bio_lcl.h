@@ -1,15 +1,35 @@
 /*
  * Copyright 2005-2016 The OpenSSL Project Authors. All Rights Reserved.
  *
- * Licensed under the Apache License 2.0 (the "License").  You may not use
+ * Licensed under the OpenSSL license (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
  * in the file LICENSE in the source distribution or at
  * https://www.openssl.org/source/license.html
  */
 
 #include "e_os.h"
-#include "internal/sockets.h"
+//#include "internal/sockets.h"
+#include <netinet/in.h>     //JohnXu
+#include <netinet/tcp.h>     //JohnXu
+#include <sys/socket.h>     //JohnXu
 #include "internal/refcount.h"
+
+
+//added by JohnXu
+#undef AF_INET6
+#undef AF_UNIX 
+
+
+#ifndef INVALID_SOCKET
+#define INVALID_SOCKET -1
+#endif
+
+#define get_last_socket_error() errno
+#define closesocket(s)  close(s)
+#define readsocket(s,b,n)  read((s), (b), (n))
+#define writesocket(s,b,n) write((s), (b), (n))
+#define clear_socket_error()  errno=0
+#define ioctlsocket(a,b,c)  ioctl(a,b,c)
 
 /* BEGIN BIO_ADDRINFO/BIO_ADDR stuff. */
 

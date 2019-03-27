@@ -24,6 +24,15 @@
 static int wsa_init_done = 0;
 # endif
 
+#ifndef INVALID_SOCKET
+#define INVALID_SOCKET -1
+#endif
+
+
+
+
+
+
 # if !OPENSSL_API_1_1_0
 int BIO_get_host_ip(const char *str, unsigned char *ip)
 {

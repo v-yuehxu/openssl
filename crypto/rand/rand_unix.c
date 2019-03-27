@@ -1,7 +1,7 @@
 /*
  * Copyright 1995-2018 The OpenSSL Project Authors. All Rights Reserved.
  *
- * Licensed under the Apache License 2.0 (the "License").  You may not use
+ * Licensed under the OpenSSL license (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
  * in the file LICENSE in the source distribution or at
  * https://www.openssl.org/source/license.html
@@ -23,22 +23,25 @@
 #endif
 #if defined(__FreeBSD__)
 # include <sys/types.h>
-# include <sys/sysctl.h>
+//# include <sys/sysctl.h>   //JohnXu
 # include <sys/param.h>
 #endif
 #if defined(__OpenBSD__) || defined(__NetBSD__)
 # include <sys/param.h>
 #endif
 
-#if defined(OPENSSL_SYS_UNIX) || defined(__DJGPP__)
+#if defined(OPENSSL_SYS_UNIX) || defined(__DJGPP__) || defined (OPENSSL_PS4)
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <unistd.h>
 # include <sys/time.h>
 
-static uint64_t get_time_stamp(void);
-static uint64_t get_timer_bits(void);
+uint64_t get_time_stamp(void);
+//static uint64_t get_time_stamp(void);
+
+uint64_t get_timer_bits(void);
+//static uint64_t get_timer_bits(void);
 
 /* Macro to convert two thirty two bit values into a sixty four bit one */
 # define TWO32TO64(a, b) ((((uint64_t)(a)) << 32) + (b))
@@ -608,7 +611,7 @@ size_t rand_pool_acquire_entropy(RAND_POOL *pool)
 # endif
 #endif
 
-#if defined(OPENSSL_SYS_UNIX) || defined(__DJGPP__)
+#if defined(OPENSSL_SYS_UNIX) || defined(__DJGPP__) || defined (OPENSSL_PS4)
 int rand_pool_add_nonce_data(RAND_POOL *pool)
 {
     struct {
@@ -655,7 +658,8 @@ int rand_pool_add_additional_data(RAND_POOL *pool)
  * The current time is ideal for this purpose, provided the computer's clock
  * is synchronized.
  */
-static uint64_t get_time_stamp(void)
+//static uint64_t get_time_stamp(void)
+uint64_t get_time_stamp(void)
 {
 # if defined(OSSL_POSIX_TIMER_OKAY)
     {
@@ -684,7 +688,8 @@ static uint64_t get_time_stamp(void)
  * which is not considered a trusted entropy sourec, so any result
  * is acceptable.
  */
-static uint64_t get_timer_bits(void)
+//static uint64_t get_timer_bits(void)
+uint64_t get_timer_bits(void)
 {
     uint64_t res = OPENSSL_rdtsc();
 
