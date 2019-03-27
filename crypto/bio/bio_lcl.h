@@ -8,12 +8,14 @@
  */
 
 #include "e_os.h"
-//#include "internal/sockets.h"
+#ifdef OPENSSL_PS4
 #include <netinet/in.h>     //JohnXu
 #include <netinet/tcp.h>     //JohnXu
 #include <sys/socket.h>     //JohnXu
 #include "internal/refcount.h"
-
+#else
+#include "internal/sockets.h"
+#endif
 
 //added by JohnXu
 #undef AF_INET6
