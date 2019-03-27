@@ -34,6 +34,7 @@
 #  endif
 # ifdef __linux
 #   define DEVRANDOM_WAIT "/dev/random"
+#endif
 # endif
 # if !defined(OPENSSL_NO_EGD) && !defined(DEVRANDOM_EGD)
 /*
