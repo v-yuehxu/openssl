@@ -21,6 +21,7 @@
 CRYPTO_RWLOCK *bio_lookup_lock;
 static CRYPTO_ONCE bio_lookup_init = CRYPTO_ONCE_STATIC_INIT;
 
+#ifdef OPENSSL_PS4
 typedef struct hostent {
     char  *h_name;
     char  **h_aliases;
@@ -35,7 +36,7 @@ typedef struct servent {
     char  *s_proto;
     short s_port;
 } SERVENT, *PSERVENT, *LPSERVENT;
-
+#endif
 
 /*
  * Throughout this file and bio_lcl.h, the existence of the macro

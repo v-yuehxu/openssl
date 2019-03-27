@@ -28,7 +28,11 @@
 #   define _POSIX_C_SOURCE 2
 #  endif
 # endif
+#ifdef OPENSSL_PS4
 # include <sys/signal.h>
+#else
+#include <signal.h>
+#endif
 # include <stdio.h>
 # include <string.h>
 # include <errno.h>

@@ -12,10 +12,6 @@
 #include <netinet/in.h>     //JohnXu
 #include <netinet/tcp.h>     //JohnXu
 #include <sys/socket.h>     //JohnXu
-#include "internal/refcount.h"
-#else
-#include "internal/sockets.h"
-#endif
 
 //added by JohnXu
 #undef AF_INET6
@@ -32,6 +28,14 @@
 #define writesocket(s,b,n) write((s), (b), (n))
 #define clear_socket_error()  errno=0
 #define ioctlsocket(a,b,c)  ioctl(a,b,c)
+
+#else
+#include "internal/sockets.h"
+#endif
+
+#include "internal/refcount.h"
+
+
 
 /* BEGIN BIO_ADDRINFO/BIO_ADDR stuff. */
 

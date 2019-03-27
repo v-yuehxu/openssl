@@ -23,7 +23,11 @@ extern "C" {
  **/
 
 # define OPENSSL_SYS_UNIX
+
+// conditioned line below or move to project predefine so it will not break windows or other builds
+#ifdef __ORBIS__
 # define OPENSSL_PS4
+#endif
 
 /* --------------------- Microsoft operating systems ---------------------- */
 
